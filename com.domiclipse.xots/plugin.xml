@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="XotsBuilder"
+         name="Xots Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="com.domiclipse.xots.builder.XotsBuilder">
+         </run>
+      </builder>
+   </extension>
+   
+   <extension
+         id="xotsProblem"
+         name="XOTS Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>   
+   
+   <extension
+         id="XotsNature"
+         name="Xots Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="com.domiclipse.xots.nature.XotsNature">
+         </run>
+      </runtime>
+      <builder
+            id="com.domiclipse.xots.XotsBuilder">
+      </builder>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="com.domiclipse.xots.contribution1">
+            
+         <action
+               label="Add XOTS Nature"
+               class="com.domiclipse.xots.actions.AddXotsNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="com.domiclipse.xots.addNatureAction">              
+         </action>
+         
+		<!-- Visible if project has DDE nature but not XOTS nature -->         
+         <visibility>
+			<and>
+				<objectState 
+					name="projectNature" 
+					value="com.ibm.workplace.notes.filesystem.DDNature"/>				
+				<not>
+					<objectState 
+						name="projectNature" 
+						value="com.domiclipse.xots.XotsNature"/>
+				</not>				
+			</and>         
+         </visibility>
+                             
+      </objectContribution>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="com.domiclipse.xots.contribution1">
+                     
+         <action
+               label="Remove XOTS Nature"
+               class="com.domiclipse.xots.actions.RemoveXotsNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="com.domiclipse.xots.removeNatureAction">
+         </action>       
+         
+		 <!-- Visible if project has XOTS nature -->         
+         <visibility>
+			<objectState 
+				name="projectNature" 
+				value="com.domiclipse.xots.XotsNature"/>         
+         </visibility>     
+                    
+      </objectContribution>
+   </extension>   
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="com.domiclipse.xots.contribution1">
+                              
+         <action
+               label="XOTS Configuration..."
+               class="com.domiclipse.xots.actions.XotsConfigAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="com.domiclipse.xots.configurationAction">
+         </action>    
+         
+		 <!-- Visible if project has DDE nature but not XOTS nature -->         
+         <visibility>
+			<objectState 
+				name="projectNature" 
+				value="com.domiclipse.xots.XotsNature"/>         
+         </visibility>     
+                    
+      </objectContribution>
+   </extension>   
+         
+</plugin>

@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Xots
+Bundle-SymbolicName: com.domiclipse.xots; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.domiclipse.xots.Activator
+Bundle-Vendor: DOMICLIPSE
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core;bundle-version="3.4.4",
+ com.ibm.designer.domino.ide.resources;bundle-version="8.5.3",
+ com.ibm.designer.prj.resources;bundle-version="8.5.3",
+ org.eclipse.core.databinding;bundle-version="1.1.1",
+ org.eclipse.jface.databinding;bundle-version="1.2.1",
+ org.eclipse.core.databinding.beans;bundle-version="1.1.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.domiclipse.xots,
+ com.domiclipse.xots.actions,
+ com.domiclipse.xots.builder,
+ com.domiclipse.xots.configuration,
+ com.domiclipse.xots.filter,
+ com.domiclipse.xots.nature,
+ com.domiclipse.xots.util,
+ com.domiclipse.xots.wizards

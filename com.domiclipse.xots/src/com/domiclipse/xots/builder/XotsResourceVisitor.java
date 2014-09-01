@@ -15,6 +15,12 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class XotsResourceVisitor implements IResourceDeltaVisitor {
 	private static final Logger logger = Logger.getLogger(XotsResourceVisitor.class.getName());
+	
+	/** Location of the Icon Note */
+	public static final String ICON_NOTE_PATH = "Resources/IconNote";
+		
+	/** Location of the Icon Note */
+	public static final String DOT_CLASSPATH_PATH = ".classpath";	
 
 	/** Flag indicating the delta is of interest to us */
 	private boolean accepted = false ;
@@ -27,10 +33,14 @@ public class XotsResourceVisitor implements IResourceDeltaVisitor {
 			// A java file has changed
 			setAccepted(true) ;
 		}
-		else if (fullPath.equals(XotsBuilder.ICON_NOTE_PATH)) {
+		else if (fullPath.equals(ICON_NOTE_PATH)) {
 			// The icon note has changed
 			setAccepted(true) ;
 		}
+		else if (fullPath.equals(DOT_CLASSPATH_PATH)) {
+			// classpath has change
+			setAccepted(true) ;
+		}		
 		
 		// Only need to continue visiting if we have not found anything
 		return !isAccepted();

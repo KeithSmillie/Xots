@@ -45,8 +45,8 @@ public class XotsConfigPage extends WizardPage {
 	public XotsConfigPage(XotsWizardModel model) {
 		super("wizardPage");
 		this.model = model;
-		setTitle("XOTS Configuration");
-		setDescription("This list shows all the XOTS compatible classes on the classpath of this database.\nSelect which ones to enable on the server.");
+		setTitle("Xots Configuration");
+		setDescription("This list shows all the Xots compatible classes on the classpath of this database.\r\nSelect which ones to enable on the server.");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class XotsConfigPage extends WizardPage {
 				tableViewer.refresh();
 			}
 		});
-		tltmSelectAll.setText("Select All");
+		tltmSelectAll.setText("Enable All");
 		
 		ToolItem tltmSelectNone = new ToolItem(toolBar, SWT.NONE);
 		tltmSelectNone.setImage(ResourceManager.getPluginImage("com.domiclipse.xots", "icons/selectnone.gif"));
@@ -88,7 +88,7 @@ public class XotsConfigPage extends WizardPage {
 				
 			}
 		});
-		tltmSelectNone.setText("Select None");
+		tltmSelectNone.setText("Disable All");
 		
 		ToolItem tltmDelete = new ToolItem(toolBar, SWT.NONE);
 		tltmDelete.setImage(ResourceManager.getPluginImage("com.domiclipse.xots", "icons/delete.gif"));
@@ -103,7 +103,7 @@ public class XotsConfigPage extends WizardPage {
 				}
 			}
 		});
-		tltmDelete.setText("Delete");
+		tltmDelete.setText("Remove");
 		
 		tableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		ColumnViewerToolTipSupport.enableFor(tableViewer,ToolTip.NO_RECREATE);

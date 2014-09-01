@@ -1,6 +1,7 @@
 package com.domiclipse.xots.builder;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -24,6 +26,8 @@ import com.domiclipse.xots.configuration.XotsTaskletConfig;
 import com.domiclipse.xots.filter.XotsTypeFilter;
 import com.domiclipse.xots.model.IXotsConfigStore;
 import com.domiclipse.xots.model.IXotsTaskletConfig;
+import com.domiclipse.xots.preferences.XotsPreferenceConstants;
+import com.domiclipse.xots.preferences.XotsPreferenceInitializer;
 import com.domiclipse.xots.util.JDTUtils;
 import com.domiclipse.xots.util.MarkerUtils;
 import com.ibm.designer.domino.ide.resources.DominoResourcesPlugin;
@@ -45,9 +49,6 @@ public class XotsBuilder extends IncrementalProjectBuilder {
 
 	/** The id of the Xots builder */
 	public static final String BUILDER_ID = "com.domiclipse.xots.XotsBuilder";	
-	
-	/** Location of the Icon Note */
-	public static final String ICON_NOTE_PATH = "Resources/IconNote";
 	
 	/** Name of the item on the icon note holding xots config */
 	public static final String XOTS_ITEM_NAME = "$Xots";
@@ -136,12 +137,15 @@ public class XotsBuilder extends IncrementalProjectBuilder {
 					if (existingTaskletConfig == null) {
 						// not in config so add new tasklet to config in a disabled state
 						XotsTaskletConfig taskletConfig = new XotsTaskletConfig() ;
-						taskletConfig.setEnabled(false);
+						taskletConfig.setEnabled(isEnableNewXotsCLasses());
 						taskletConfig.setClassName(xotType.getFullyQualifiedName());
 						xotsDatabaseConfig.getTaskletConfigs().add(taskletConfig);
 					}
 				}	
 				
+				// Examine all the tasklets in the config and check they are valid/exist.
+				// Either flag invalid ones with a marker or remove them from the config.
+				List<XotsTaskletConfig> removals = new ArrayList<XotsTaskletConfig>() ;
 				for (XotsTaskletConfig taskletConfig : xotsDatabaseConfig.getTaskletConfigs()) {
 					String className = taskletConfig.getClassName();
 					IType thisType = null ;
@@ -156,18 +160,28 @@ public class XotsBuilder extends IncrementalProjectBuilder {
 					
 					if (thisType == null) {
 						// This is a tasklet config that refers to a class that is not a 
-						// subclass of the xots superclass so add a marker to the resource
-						if (iconResource != null && iconResource.exists()) {
-							logger.warning("Bad tasklet config: " + className);
-							MarkerUtils.addMarker(
-									iconResource, 
-									"Xots tasklet: " + className + " is not a subclass of " + XOTS_CLASS_NAME, 
-									1, 
-									IMarker.SEVERITY_ERROR,
-									MARKER_TYPE);	
+						// subclass of the xots superclass
+						if (isRemoveMissingXotsCLasses()) {
+							// Mark for removal from config
+							removals.add(taskletConfig);
+						}
+						else {
+							if (iconResource != null && iconResource.exists()) {
+								// Add a marker to the icon note.
+								logger.warning("Bad tasklet config: " + className);
+								MarkerUtils.addMarker(
+										iconResource, 
+										"Xots tasklet: " + className + " is not a subclass of " + XOTS_CLASS_NAME, 
+										1, 
+										IMarker.SEVERITY_WARNING,
+										MARKER_TYPE);								
+							}
 						}
 					}
 				}
+				
+				// Remove the removals, if any
+				xotsDatabaseConfig.getTaskletConfigs().removeAll(removals);
 			}
 			else {
 				// no xots config store so create a new one but only if there are any xots classes
@@ -204,6 +218,14 @@ public class XotsBuilder extends IncrementalProjectBuilder {
 		
 		return taskletConfig ;
 	}
+	
+	private boolean isEnableNewXotsCLasses() {
+		return Platform.getPreferencesService().getBoolean("com.domiclipse.xots", XotsPreferenceConstants.ENABLE_NEW_XOTS, XotsPreferenceInitializer.ENABLE_NEW_XOTS_DEFAULT, null); 		
+	}
+	
+	private boolean isRemoveMissingXotsCLasses() {
+		return Platform.getPreferencesService().getBoolean("com.domiclipse.xots", XotsPreferenceConstants.REMOVE_MISSING_XOTS, XotsPreferenceInitializer.REMOVE_MISSING_XOTS_DEFAULT, null);
+	}	
 	
 
 }

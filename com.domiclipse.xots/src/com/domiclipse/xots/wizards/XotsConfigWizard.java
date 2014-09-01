@@ -28,7 +28,7 @@ public class XotsConfigWizard extends Wizard {
 	
 	public XotsConfigWizard(IProject project) {
 		this.project = project;
-		setWindowTitle("XOTS Configuration");
+		setWindowTitle("Xots Configuration");
 		
 		IXotsConfigStore store = new IconNoteXotsConfigStore2(project);
 		model = new XotsWizardModel(project, store) ;

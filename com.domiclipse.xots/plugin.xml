@@ -16,7 +16,7 @@
    
    <extension
          id="xotsProblem"
-         name="XOTS Problem"
+         name="Xots Problem"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.problemmarker">
@@ -49,7 +49,7 @@
             id="com.domiclipse.xots.contribution1">
             
          <action
-               label="Add XOTS Nature"
+               label="Add Xots Nature"
                class="com.domiclipse.xots.actions.AddXotsNatureAction"
                menubarPath="additions"
                enablesFor="+"
@@ -82,7 +82,7 @@
             id="com.domiclipse.xots.contribution1">
                      
          <action
-               label="Remove XOTS Nature"
+               label="Remove Xots Nature"
                class="com.domiclipse.xots.actions.RemoveXotsNatureAction"
                menubarPath="additions"
                enablesFor="+"
@@ -108,7 +108,7 @@
             id="com.domiclipse.xots.contribution1">
                               
          <action
-               label="XOTS Configuration..."
+               label="Xots Configuration..."
                class="com.domiclipse.xots.actions.XotsConfigAction"
                menubarPath="additions"
                enablesFor="+"
@@ -123,6 +123,27 @@
          </visibility>     
                     
       </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.domiclipse.xots.preferences.XotsPreferencePage"
+            id="com.domiclipse.xots.preferences.XotsPreferencePage"
+            name="Xots Builder">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.domiclipse.xots.preferences.XotsPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
    </extension>   
          
 </plugin>

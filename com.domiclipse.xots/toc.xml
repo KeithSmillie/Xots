@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Xots Builder" topic="html/toc.html">
+	<topic href="html/gettingstarted.html" label="Getting Started">
+ </topic>
+ <topic href="html/preferences.html" label="Preferences">
+ </topic>
+ <topic href="html/configuration.html" label="Configuration Wizard">
+ </topic>
+</toc>

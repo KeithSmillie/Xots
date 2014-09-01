@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.domiclipse.xots.feature_1.0.0.201408311102.jar" id="com.domiclipse.xots.feature" version="1.0.0.201408311102">
+   <feature url="features/com.domiclipse.xots.feature_1.0.0.201409011246.jar" id="com.domiclipse.xots.feature" version="1.0.0.201409011246">
       <category name="Xots"/>
    </feature>
    <category-def name="Xots" label="Xots"/>
